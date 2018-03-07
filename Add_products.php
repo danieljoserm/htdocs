@@ -12,6 +12,10 @@ $consulta=json_decode(file_get_contents('php://input'));
  $user = 'root';
  $password = '';
 
+ //enable ssh access mysql xampp
+ //GRANT ALL PRIVILEGES ON . TO root@'%' IDENTIFIED BY 'password';
+//FLUSH PRIVILEGES;
+ 
 //SELECT general FROM `prueba` where general=valor;
 
  $db = new PDO($dsn, $user, $password);
