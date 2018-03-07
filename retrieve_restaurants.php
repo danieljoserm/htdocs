@@ -2,13 +2,13 @@
 
 //Headers, These headers are need allowing a post request by the client.
 header("Access-Control-Allow-Origin: *");//Header only need it for testing on the same pc with different servers
-header("Access-Control-Allow-Methods: POST");
+header("Access-Control-Allow-Methods: GET");
 header("Access-Control-Allow-Headers: *");
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST')
+if ($_SERVER['REQUEST_METHOD'] == 'GET')
 {
 	
- $inputdata=json_decode(file_get_contents('php://input'));	
+ 
 	
  //mysql server credentials 
  $dsn = 'mysql:dbname=rest;host=localhost:3306'; 
@@ -22,8 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
  
  $database = new PDO($dsn, $user, $password);//initilizing the pdo connection.
 
- $stmt = $database->prepare("CALL retrieve_menu(?)");//adding the stored procedure to the pdo query
- $stmt->bindValue(1, $inputdata->{'restaurant_name'}, PDO::PARAM_STR);//The restaurantID 
+ $stmt = $database->prepare("CALL retrieve_restaurants()");//adding the stored procedure to the pdo query
  $rs = $stmt->execute();
  $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
  
