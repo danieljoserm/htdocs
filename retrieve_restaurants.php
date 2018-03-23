@@ -1,7 +1,6 @@
 <?php
 
-//Headers, These headers are need allowing a post request by the client.
-header("Access-Control-Allow-Origin: *");//Header only need it for testing on the same pc with different servers
+header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET");
 header("Access-Control-Allow-Headers: *");
 
