@@ -2,18 +2,20 @@
 
 //Headers, These headers are need allowing a post request by the client.
 header("Access-Control-Allow-Origin: *");//Header only need it for testing on the same pc with different servers
-header("Access-Control-Allow-Methods: GET");
+header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Allow-Headers: *");
 
-//if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+if ($_SERVER['REQUEST_METHOD'] == 'POST'){
  $inputdata=json_decode(file_get_contents('php://input'));	
-	
+
+
+ 
  //mysql server credentials 
  $dsn = 'mysql:dbname=rest;host=localhost:3306'; 
  $user = 'root';
  $password = '';
 
-$usernumber=15;
+$usernumber=1;
 $rest=2;
 
  //enable ssh access mysql xampp
@@ -32,8 +34,18 @@ $rest=2;
 // $stmt->bindValue(1,$rest,PDO::PARAM_INT);//The restaurantID 
 // $stmt->bindValue(2,$usernumber,PDO::PARAM_INT);
  $rs = $stmt->execute();
- $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
  
-  echo json_encode($rows);
-//}
+ $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// $rows = $stmt->fetch();
+ 
+
+ 
+ var_dump($rows);
+ echo $rows[0]["LAST_INSERT_ID()"];
+ 
+ 
+ 
+ 
+ 
+}
 ?>
