@@ -15,22 +15,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
  $user = 'root';
  $password = '';
 
-$usernumber=1;
-$rest=2;
+
 
  //enable ssh access mysql xampp
  //GRANT ALL PRIVILEGES ON . TO root@'%' IDENTIFIED BY 'password';
 //FLUSH PRIVILEGES;
  //FIRST INSERT THE PEDIDO, THEM INSERT EACH ITEM OF THE PEDIDO ONE BY ONE
  
- 
+
  
 
  $database = new PDO($dsn, $user, $password);//initilizing the pdo connection.
 
  $stmt = $database->prepare("CALL send_order(?,?)");//adding the stored procedure to the pdo query
- $stmt->bindValue(1, $rest, PDO::PARAM_STR);
- $stmt->bindValue(2,$usernumber, PDO::PARAM_STR);
+ $stmt->bindValue(1, $inputdata->id_restaurante, PDO::PARAM_STR);
+ $stmt->bindValue(2,$inputdata->id_usuario, PDO::PARAM_STR);
 // $stmt->bindValue(1,$rest,PDO::PARAM_INT);//The restaurantID 
 // $stmt->bindValue(2,$usernumber,PDO::PARAM_INT);
  $rs = $stmt->execute();
@@ -38,14 +37,39 @@ $rest=2;
  $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 // $rows = $stmt->fetch();
  
+ 
+ for($i= 0; $i<count($inputdata->id_productos);$i++){
+	 
+ $stmt = $database->prepare("CALL send_product(?,?,?)");//adding the stored procedure to the pdo query
+ $stmt->bindValue(1, $rows[0]["LAST_INSERT_ID()"], PDO::PARAM_STR);
+ $stmt->bindValue(2,$inputdata->id_productos[$i]->id, PDO::PARAM_STR);
+ $stmt->bindValue(3,$inputdata->id_productos[$i]->cantidad, PDO::PARAM_STR);
+ $rs = $stmt->execute();
+ 
+
+	 
+ }
 
  
- var_dump($rows);
- echo $rows[0]["LAST_INSERT_ID()"];
- 
- 
- 
- 
+  echo json_encode("se inserto con exito");
+ //Test for debugging
+ //echo var_dump($rows);
+ //echo var_dump($inputdata);
+ //echo var_dump($inputdata->id_productos[0]->id);
+ //echo count($inputdata->id_productos);
  
 }
+
+
+else{
+	echo json_encode("no se agrego con exito");
+	
+}
 ?>
+
+
+
+
+
+
+{"id_usuario":1, "id_restaurante":"1","id_productos":[{"id":1,"cantidad":2},{"id":2,"cantidad":3}]}
